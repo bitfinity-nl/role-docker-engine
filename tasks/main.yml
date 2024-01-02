@@ -12,6 +12,18 @@
 # Source(s):
 #   - https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 #
+- name: "Remove unofficial APT docker packages"
+  ansible.builtin.apt:
+    pkg:
+    - docker.io
+    - docker-doc
+    - docker-compose
+    - docker-compose-v2
+    - podman-docker
+    - containerd
+    - runc
+    state: absent
+
 - name: "Add Docker Apt signing key to keyring file"
   ansible.builtin.apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
