@@ -1,0 +1,43 @@
+---
+# Title: Docker Engine on Ubuntu
+#
+# Author: Bitfinity / L. Rutten
+# Owner: Bitfinity / L. Rutten
+#
+# File: tasks/main.yml
+#
+# Description:
+#   This taskfile contains the tasks for installing the latest Docker Engine on Ubuntu.
+#
+# Source(s):
+#   - https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
+#
+- name: "Add Docker Apt signing key to keyring file"
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    keyring: /etc/apt/keyrings/docker.gpg
+
+- name: :Add Docker repository"
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu   {{ ansible_distribution_release }} stable"
+    state: present
+    filename: docker
+
+- name: "Update APT cache"
+  ansible.builtin.apt:
+    update_cache: yes
+     
+- name: "Install APT packages for docker"
+  ansible.builtin.apt:
+    pkg:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+    - docker-buildx-plugin
+    - docker-compose-plugin
+
+- name: "Enable and start docker daemon"
+  ansible.builtin.systemd:
+    state: started
+    enabled: true
+    name: docker
