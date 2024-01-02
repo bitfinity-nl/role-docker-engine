@@ -31,7 +31,15 @@
     - curl
     - gnupg
 #    update_cache: yes
-    
+
+- name: "Ensure that directory /etc/apt/keyrings/ exists"
+  ansible.builtin.file:
+    path: /etc/apt/keyrings/
+    owner: root
+    group: root
+    mode: '0755'
+    state: directory
+  
 - name: "Add Docker Apt signing key to keyring file"
   ansible.builtin.apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
