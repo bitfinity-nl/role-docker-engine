@@ -24,9 +24,16 @@
     - runc
     state: absent
 
+- name: "Update APT cache"
+  ansible.builtin.apt:
+    pkg:
+    - ca-certificates
+    - curl
+    - gnupg
+    update_cache: yes
+    
 - name: "Add Docker Apt signing key to keyring file"
-  #ansible.builtin.apt_key:
-  apt_key:
+  ansible.builtin.apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     keyring: /etc/apt/keyrings/docker.gpg
 
