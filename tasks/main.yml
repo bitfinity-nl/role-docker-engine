@@ -12,17 +12,17 @@
 # Source(s):
 #   - https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 #
-- name: "Remove unofficial APT docker packages"
-  ansible.builtin.apt:
-    pkg:
-    - docker.io
-    - docker-doc
-    - docker-compose
-    - docker-compose-v2
-    - podman-docker
-    - containerd
-    - runc
-    state: absent
+#- name: "Remove unofficial APT docker packages"
+#  ansible.builtin.apt:
+#    pkg:
+#    - docker.io
+#    - docker-doc
+#    - docker-compose
+#    - docker-compose-v2
+#    - podman-docker
+#    - containerd
+#    - runc
+#    state: absent
 
 - name: "Update APT cache"
   ansible.builtin.apt:
@@ -32,14 +32,17 @@
     - gnupg
 #    update_cache: yes
 
-- name: "Ensure that directory /etc/apt/keyrings/ exists"
-  ansible.builtin.file:
-    path: /etc/apt/keyrings/
-    owner: root
-    group: root
-    mode: '0755'
-    state: directory
-  
+#- name: "Ensure that directory /etc/apt/keyrings/ exists"
+#  ansible.builtin.file:
+#    path: /etc/apt/keyrings/
+#    owner: root
+#    group: root
+#    mode: '0755'
+#    state: directory
+
+- name: "ad"
+  raw: install -m 0755 -d /etc/apt/keyrings
+
 - name: "Add Docker Apt signing key to keyring file"
   ansible.builtin.apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
