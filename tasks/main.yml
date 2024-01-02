@@ -31,7 +31,7 @@
     - curl
     - gnupg
     
-- name: "ad"
+- name: "Isntall /etc/apt/keyrings if not exists"
   raw: install -m 0755 -d /etc/apt/keyrings
 
 - name: "Add Docker Apt signing key to keyring file"
