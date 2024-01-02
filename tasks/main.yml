@@ -30,7 +30,7 @@
     - ca-certificates
     - curl
     - gnupg
-    update_cache: yes
+#    update_cache: yes
     
 - name: "Add Docker Apt signing key to keyring file"
   ansible.builtin.apt_key:
