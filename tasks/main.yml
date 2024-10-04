@@ -12,7 +12,7 @@
 # Source(s):
 #   - https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 #
-- name: "Remove unofficial APT docker packages"
+- name: "Remove unofficial APT Docker packages on host {{ ansible_hostname }}"
   ansible.builtin.apt:
     pkg:
     - docker.io
@@ -24,32 +24,32 @@
     - runc
     state: absent
 
-- name: "Update APT cache"
+- name: "Install APT packages on host {{ ansible_hostname }}"
   ansible.builtin.apt:
     pkg:
     - ca-certificates
     - curl
     - gnupg
     
-- name: "Isntall /etc/apt/keyrings if not exists"
+- name: "Install /etc/apt/keyrings if not exists on host {{ ansible_hostname }}"
   raw: install -m 0755 -d /etc/apt/keyrings
 
-- name: "Add Docker Apt signing key to keyring file"
+- name: "Add Docker Apt signing key to keyring file on host {{ ansible_hostname }}"
   ansible.builtin.apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     keyring: /etc/apt/keyrings/docker.gpg
 
-- name: :Add Docker repository"
+- name: "Add official Docker repository on host {{ ansible_hostname }}"
   ansible.builtin.apt_repository:
     repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu   {{ ansible_distribution_release }} stable"
     state: present
     filename: docker
 
-- name: "Update APT cache"
+- name: "Update APT cache on host {{ ansible_hostname }}"
   ansible.builtin.apt:
     update_cache: yes
      
-- name: "Install APT packages for docker"
+- name: "Install APT packages for Docker on host {{ ansible_hostname }}"
   ansible.builtin.apt:
     pkg:
     - docker-ce
@@ -58,7 +58,7 @@
     - docker-buildx-plugin
     - docker-compose-plugin
 
-- name: "Enable and start docker daemon"
+- name: "Enable and start Docker daemon on host {{ ansible_hostname }}"
   ansible.builtin.systemd:
     state: started
     enabled: true
