@@ -29,16 +29,22 @@
     pkg:
     - ca-certificates
     - curl
-    - gnupg
+#    - gnupg
     
 - name: "Install /etc/apt/keyrings if not exists on host {{ ansible_hostname }}"
   raw: install -m 0755 -d /etc/apt/keyrings
 
-- name: "Add Docker Apt signing key to keyring file on host {{ ansible_hostname }}"
-  ansible.builtin.apt_key:
-    url: https://download.docker.com/linux/ubuntu/gpg
-    keyring: /etc/apt/keyrings/docker.gpg
+#- name: "Add Docker Apt signing key to keyring file on host {{ ansible_hostname }}"
+#  ansible.builtin.apt_key:
+#    url: https://download.docker.com/linux/ubuntu/gpg
+#    keyring: /etc/apt/keyrings/docker.gpg
 
+- name: Download de Docker GPG sleutel
+  ansible.builtin.get_url:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    dest: /etc/apt/keyrings/docker.asc
+    mode: '0644'
+    
 - name: "Add official Docker repository on host {{ ansible_hostname }}"
   ansible.builtin.apt_repository:
     repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu   {{ ansible_distribution_release }} stable"
